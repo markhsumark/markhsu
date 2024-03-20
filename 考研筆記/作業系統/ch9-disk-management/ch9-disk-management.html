@@ -1,0 +1,326 @@
+<!DOCTYPE html> <html><head>
+		<title>CH9 Disk Management</title>
+		<base href="../../">
+		<meta id="root-path" root-path="../../">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=5.0">
+		<meta charset="UTF-8">
+		<meta name="description" content="考研筆記 - CH9 Disk Management">
+		<meta property="og:title" content="CH9 Disk Management">
+		<meta property="og:description" content="考研筆記 - CH9 Disk Management">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="作業系統/ch9-disk-management/ch9-disk-management.html">
+		<meta property="og:image" content="lib/media/截圖-2022-11-02-下午7.52.40.jpg">
+		<meta property="og:site_name" content="考研筆記">
+		<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="lib/rss.xml"><script async="" id="webpage-script" src="lib/scripts/webpage.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script type="module" async="" id="graph-view-script" src="lib/scripts/graph-view.js"></script><script async="" id="graph-wasm-script" src="lib/scripts/graph-wasm.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="graph-render-worker-script" src="lib/scripts/graph-render-worker.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="tinycolor-script" src="lib/scripts/tinycolor.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="pixi-script" src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.4.0/pixi.min.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="minisearch-script" src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><link rel="icon" href="lib/media/favicon.png"><script async="" id="graph-data-script" src="lib/scripts/graph-data.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><style>body{--line-width:40em;--line-width-adaptive:40em;--file-line-width:40em;--sidebar-width:min(20em, 80vw);--collapse-arrow-size:11px;--tree-horizontal-spacing:0.6em;--tree-vertical-spacing:0.6em;--sidebar-margin:12px}.sidebar{height:100%;min-width:calc(var(--sidebar-width) + var(--divider-width-hover));max-width:calc(var(--sidebar-width) + var(--divider-width-hover));font-size:14px;z-index:10;position:relative;overflow:hidden;transition:min-width ease-in-out,max-width ease-in-out;transition-duration:.2s;contain:size}.sidebar-left{left:0}.sidebar-right{right:0}.sidebar.is-collapsed{min-width:0;max-width:0}body.floating-sidebars .sidebar{position:absolute}.sidebar-content{height:100%;min-width:calc(var(--sidebar-width) - var(--divider-width-hover));top:0;padding:var(--sidebar-margin);padding-top:4em;line-height:var(--line-height-tight);background-color:var(--background-secondary);transition:background-color,border-right,border-left,box-shadow;transition-duration:var(--color-fade-speed);transition-timing-function:ease-in-out;position:absolute;display:flex;flex-direction:column}.sidebar:not(.is-collapsed) .sidebar-content{min-width:calc(max(100%,var(--sidebar-width)) - 3px);max-width:calc(max(100%,var(--sidebar-width)) - 3px)}.sidebar-left .sidebar-content{left:0;border-top-right-radius:var(--radius-l);border-bottom-right-radius:var(--radius-l)}.sidebar-right .sidebar-content{right:0;border-top-left-radius:var(--radius-l);border-bottom-left-radius:var(--radius-l)}.sidebar:has(.sidebar-content:empty):has(.topbar-content:empty){display:none}.sidebar-topbar{height:2em;width:var(--sidebar-width);top:var(--sidebar-margin);padding-inline:var(--sidebar-margin);z-index:1;position:fixed;display:flex;align-items:center;transition:width ease-in-out;transition-duration:inherit}.sidebar.is-collapsed .sidebar-topbar{width:calc(2.3em + var(--sidebar-margin) * 2)}.sidebar .sidebar-topbar.is-collapsed{width:0}.sidebar-left .sidebar-topbar{left:0}.sidebar-right .sidebar-topbar{right:0}.topbar-content{overflow:hidden;overflow:clip;width:100%;height:100%;display:flex;align-items:center;transition:inherit}.sidebar.is-collapsed .topbar-content{width:0;transition:inherit}.clickable-icon.sidebar-collapse-icon{background-color:transparent;color:var(--icon-color-focused);padding:0!important;margin:0!important;height:100%!important;width:2.3em!important;margin-inline:0.14em!important;position:absolute}.sidebar-left .clickable-icon.sidebar-collapse-icon{transform:rotateY(180deg);right:var(--sidebar-margin)}.sidebar-right .clickable-icon.sidebar-collapse-icon{transform:rotateY(180deg);left:var(--sidebar-margin)}.clickable-icon.sidebar-collapse-icon svg.svg-icon{width:100%;height:100%}.sidebar-section-header{margin:0 0 1em 0;text-transform:uppercase;letter-spacing:.06em;font-weight:600}body{transition:background-color var(--color-fade-speed) ease-in-out}.webpage-container{display:flex;flex-direction:row;height:100%;width:100%;align-items:stretch;justify-content:center}.document-container{opacity:1;flex-basis:100%;max-width:100%;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;transition:opacity .2s ease-in-out;contain:inline-size}.hide{opacity:0;transition:opacity .2s ease-in-out}.document-container>.markdown-preview-view{margin:var(--sidebar-margin);margin-bottom:0;width:100%;width:-webkit-fill-available;width:-moz-available;width:fill-available;background-color:var(--background-primary);transition:background-color var(--color-fade-speed) ease-in-out;border-top-right-radius:var(--window-radius,var(--radius-m));border-top-left-radius:var(--window-radius,var(--radius-m));overflow-x:hidden!important;overflow-y:auto!important;display:flex!important;flex-direction:column!important;align-items:center!important;contain:inline-size}.document-container>.markdown-preview-view>.markdown-preview-sizer{padding-bottom:80vh!important;width:100%!important;max-width:var(--line-width)!important;flex-basis:var(--line-width)!important;transition:background-color var(--color-fade-speed) ease-in-out;contain:inline-size}.markdown-rendered img:not([width]),.view-content img:not([width]){max-width:100%;outline:0}.document-container>.view-content.embed{display:flex;padding:1em;height:100%;width:100%;align-items:center;justify-content:center}.document-container>.view-content.embed>*{max-width:100%;max-height:100%;object-fit:contain}:has(> :is(.math,table)){overflow-x:auto!important}.document-container>.view-content{overflow-x:auto;contain:content;padding:0;margin:0;height:100%}.scroll-highlight{position:absolute;width:100%;height:100%;pointer-events:none;z-index:1000;background-color:hsla(var(--color-accent-hsl),.25);opacity:0;padding:1em;inset:50%;translate:-50% -50%;border-radius:var(--radius-s)}</style><script defer="">async function loadIncludes(){if("file:"!=location.protocol){let e=document.querySelectorAll("include");for(let t=0;t<e.length;t++){let o=e[t],l=o.getAttribute("src");try{const e=await fetch(l);if(!e.ok){console.log("Could not include file: "+l),o?.remove();continue}let t=await e.text(),n=document.createRange().createContextualFragment(t),i=Array.from(n.children);for(let e of i)e.classList.add("hide"),e.style.transition="opacity 0.5s ease-in-out",setTimeout((()=>{e.classList.remove("hide")}),10);o.before(n),o.remove(),console.log("Included file: "+l)}catch(e){o?.remove(),console.log("Could not include file: "+l,e);continue}}}else{if(document.querySelectorAll("include").length>0){var e=document.createElement("div");e.id="error",e.textContent="Web server exports must be hosted on an http / web server to be viewed correctly.",e.style.position="fixed",e.style.top="50%",e.style.left="50%",e.style.transform="translate(-50%, -50%)",e.style.fontSize="1.5em",e.style.fontWeight="bold",e.style.textAlign="center",document.body.appendChild(e),document.querySelector(".document-container")?.classList.remove("hide")}}}document.addEventListener("DOMContentLoaded",(()=>{loadIncludes()}));let isFileProtocol="file:"==location.protocol;function waitLoadScripts(e,t){let o=e.map((e=>document.getElementById(e+"-script"))),l=0;!function e(){let n=o[l];l++,n&&"true"!=n.getAttribute("loaded")||l<o.length&&e(),l<o.length?n.addEventListener("load",e):t()}()}</script><link rel="stylesheet" href="lib/styles/obsidian.css"><link rel="stylesheet" href="lib/styles/theme.css"><link rel="preload" href="lib/styles/global-variable-styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="lib/styles/global-variable-styles.css"></noscript><link rel="preload" href="lib/styles/main-styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="lib/styles/main-styles.css"></noscript></head><body class="publish css-settings-manager theme-dark native-scrollbars show-inline-title"><script defer="">let theme=localStorage.getItem("theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"==theme?(document.body.classList.add("theme-dark"),document.body.classList.remove("theme-light")):(document.body.classList.add("theme-light"),document.body.classList.remove("theme-dark")),window.innerWidth<480?document.body.classList.add("is-phone"):window.innerWidth<768?document.body.classList.add("is-tablet"):window.innerWidth<1024?document.body.classList.add("is-small-screen"):document.body.classList.add("is-large-screen")</script><div class="webpage-container workspace"><div class="sidebar-left sidebar"><div class="sidebar-handle"></div><div class="sidebar-topbar"><div class="topbar-content"><label class="theme-toggle-container" for="theme_toggle"><input class="theme-toggle-input" type="checkbox" id="theme_toggle"><div class="toggle-background"></div></label></div><div class="clickable-icon sidebar-collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M21 3H3C1.89543 3 1 3.89543 1 5V19C1 20.1046 1.89543 21 3 21H21C22.1046 21 23 20.1046 23 19V5C23 3.89543 22.1046 3 21 3Z"></path><path d="M10 4V20"></path><path d="M4 7H7"></path><path d="M4 10H7"></path><path d="M4 13H7"></path></svg></div></div><div class="sidebar-content"><div class="search-input-container"><input enterkeyhint="search" type="search" spellcheck="false" placeholder="Search..."><div class="search-input-clear-button" aria-label="Clear search"></div></div><include src="lib/html/file-tree.html"></include></div><script defer="">let ls = document.querySelector(".sidebar-left"); ls.classList.add("is-collapsed"); if (window.innerWidth > 768) ls.classList.remove("is-collapsed"); ls.style.setProperty("--sidebar-width", localStorage.getItem("sidebar-left-width"));</script></div><div class="document-container markdown-reading-view hide"><div class="markdown-preview-view markdown-rendered allow-fold-headings allow-fold-lists is-readable-line-width"><style id="MJX-CHTML-styles">mjx-container[jax=CHTML]{line-height:0}mjx-container [space="1"]{margin-left:.111em}mjx-container [space="2"]{margin-left:.167em}mjx-container [space="3"]{margin-left:.222em}mjx-container [space="4"]{margin-left:.278em}mjx-container [space="5"]{margin-left:.333em}mjx-container [rspace="1"]{margin-right:.111em}mjx-container [rspace="2"]{margin-right:.167em}mjx-container [rspace="3"]{margin-right:.222em}mjx-container [rspace="4"]{margin-right:.278em}mjx-container [rspace="5"]{margin-right:.333em}mjx-container [size="s"]{font-size:70.7%}mjx-container [size=ss]{font-size:50%}mjx-container [size=Tn]{font-size:60%}mjx-container [size=sm]{font-size:85%}mjx-container [size=lg]{font-size:120%}mjx-container [size=Lg]{font-size:144%}mjx-container [size=LG]{font-size:173%}mjx-container [size=hg]{font-size:207%}mjx-container [size=HG]{font-size:249%}mjx-container [width=full]{width:100%}mjx-box{display:inline-block}mjx-block{display:block}mjx-itable{display:inline-table}mjx-row{display:table-row}mjx-row>*{display:table-cell}mjx-mtext{display:inline-block}mjx-mstyle{display:inline-block}mjx-merror{display:inline-block;color:red;background-color:#ff0}mjx-mphantom{visibility:hidden}mjx-assistive-mml{top:0;left:0;clip:rect(1px,1px,1px,1px);user-select:none;position:absolute!important;padding:1px 0 0!important;border:0!important;display:block!important;width:auto!important;overflow:hidden!important}mjx-assistive-mml[display=block]{width:100%!important}mjx-math{display:inline-block;text-align:left;line-height:0;text-indent:0;font-style:normal;font-weight:400;font-size:100%;letter-spacing:normal;border-collapse:collapse;overflow-wrap:normal;word-spacing:normal;white-space:nowrap;direction:ltr;padding:1px 0}mjx-container[jax=CHTML][display=true]{display:block;text-align:center;margin:1em 0}mjx-container[jax=CHTML][display=true][width=full]{display:flex}mjx-container[jax=CHTML][display=true] mjx-math{padding:0}mjx-container[jax=CHTML][justify=left]{text-align:left}mjx-container[jax=CHTML][justify=right]{text-align:right}mjx-mi{display:inline-block;text-align:left}mjx-c{display:inline-block}mjx-utext{display:inline-block;padding:.75em 0 .2em}mjx-mn{display:inline-block;text-align:left}mjx-c::before{display:block;width:0}.MJX-TEX{font-family:MJXZERO,MJXTEX}.TEX-B{font-family:MJXZERO,MJXTEX-B}.TEX-I{font-family:MJXZERO,MJXTEX-I}.TEX-MI{font-family:MJXZERO,MJXTEX-MI}.TEX-BI{font-family:MJXZERO,MJXTEX-BI}.TEX-S1{font-family:MJXZERO,MJXTEX-S1}.TEX-S2{font-family:MJXZERO,MJXTEX-S2}.TEX-S3{font-family:MJXZERO,MJXTEX-S3}.TEX-S4{font-family:MJXZERO,MJXTEX-S4}.TEX-A{font-family:MJXZERO,MJXTEX-A}.TEX-C{font-family:MJXZERO,MJXTEX-C}.TEX-CB{font-family:MJXZERO,MJXTEX-CB}.TEX-FR{font-family:MJXZERO,MJXTEX-FR}.TEX-FRB{font-family:MJXZERO,MJXTEX-FRB}.TEX-SS{font-family:MJXZERO,MJXTEX-SS}.TEX-SSB{font-family:MJXZERO,MJXTEX-SSB}.TEX-SSI{font-family:MJXZERO,MJXTEX-SSI}.TEX-SC{font-family:MJXZERO,MJXTEX-SC}.TEX-T{font-family:MJXZERO,MJXTEX-T}.TEX-V{font-family:MJXZERO,MJXTEX-V}.TEX-VB{font-family:MJXZERO,MJXTEX-VB}mjx-stretchy-h mjx-c,mjx-stretchy-v mjx-c{font-family:MJXZERO,MJXTEX-S1,MJXTEX-S4,MJXTEX,MJXTEX-A!important}@font-face{font-family:MJXZERO;src:url("lib/fonts/mathjax_zero.woff") format("woff")}@font-face{font-family:MJXTEX;src:url("lib/fonts/mathjax_main-regular.woff") format("woff")}@font-face{font-family:MJXTEX-B;src:url("lib/fonts/mathjax_main-bold.woff") format("woff")}@font-face{font-family:MJXTEX-I;src:url("lib/fonts/mathjax_math-italic.woff") format("woff")}@font-face{font-family:MJXTEX-MI;src:url("lib/fonts/mathjax_main-italic.woff") format("woff")}@font-face{font-family:MJXTEX-BI;src:url("lib/fonts/mathjax_math-bolditalic.woff") format("woff")}@font-face{font-family:MJXTEX-S1;src:url("lib/fonts/mathjax_size1-regular.woff") format("woff")}@font-face{font-family:MJXTEX-S2;src:url("lib/fonts/mathjax_size2-regular.woff") format("woff")}@font-face{font-family:MJXTEX-S3;src:url("lib/fonts/mathjax_size3-regular.woff") format("woff")}@font-face{font-family:MJXTEX-S4;src:url("lib/fonts/mathjax_size4-regular.woff") format("woff")}@font-face{font-family:MJXTEX-A;src:url("lib/fonts/mathjax_ams-regular.woff") format("woff")}@font-face{font-family:MJXTEX-C;src:url("lib/fonts/mathjax_calligraphic-regular.woff") format("woff")}@font-face{font-family:MJXTEX-CB;src:url("lib/fonts/mathjax_calligraphic-bold.woff") format("woff")}@font-face{font-family:MJXTEX-FR;src:url("lib/fonts/mathjax_fraktur-regular.woff") format("woff")}@font-face{font-family:MJXTEX-FRB;src:url("lib/fonts/mathjax_fraktur-bold.woff") format("woff")}@font-face{font-family:MJXTEX-SS;src:url("lib/fonts/mathjax_sansserif-regular.woff") format("woff")}@font-face{font-family:MJXTEX-SSB;src:url("lib/fonts/mathjax_sansserif-bold.woff") format("woff")}@font-face{font-family:MJXTEX-SSI;src:url("lib/fonts/mathjax_sansserif-italic.woff") format("woff")}@font-face{font-family:MJXTEX-SC;src:url("lib/fonts/mathjax_script-regular.woff") format("woff")}@font-face{font-family:MJXTEX-T;src:url("lib/fonts/mathjax_typewriter-regular.woff") format("woff")}@font-face{font-family:MJXTEX-V;src:url("lib/fonts/mathjax_vector-regular.woff") format("woff")}@font-face{font-family:MJXTEX-VB;src:url("lib/fonts/mathjax_vector-bold.woff") format("woff")}mjx-c.mjx-c31::before{padding:.666em .5em 0 0;content:"1"}mjx-c.mjx-c30::before{padding:.666em .5em .022em 0;content:"0"}</style><pre class="frontmatter language-yaml" tabindex="0" style="display: none;"><code class="language-yaml is-loaded"><span class="token key atrule">date created</span><span class="token punctuation">:</span> 2022<span class="token punctuation">-</span>11<span class="token punctuation">-</span>02 18<span class="token punctuation">:</span><span class="token number">27</span>
+<span class="token key atrule">date updated</span><span class="token punctuation">:</span> 2023<span class="token punctuation">-</span>01<span class="token punctuation">-</span>30 16<span class="token punctuation">:</span><span class="token number">37</span></code><button class="copy-code-button">複製</button></pre><div class="markdown-preview-sizer markdown-preview-section"><h1 class="page-title heading inline-title" id="Disk system 組成 <a href=&quot;?query=tag:%E2%AD%90%EF%B8%8F&quot; class=&quot;tag&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>#⭐️</a>">Disk system 組成 </h1><div class="admonition-parent admonition-question-parent"><div class="callout admonition admonition-question admonition-plugin " style="--callout-color: 100, 221, 23;" data-callout="question" data-callout-fold="" data-callout-metadata=""><div class="callout-title admonition-title "><div class="callout-icon admonition-title-icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="question-circle" class="svg-inline--fa fa-question-circle fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"></path></svg></div><div class="callout-title-inner admonition-title-content">為什麼OS需要block儲存在Disk的相關資訊</div></div><div class="callout-content admonition-content"><p>Ans:需要知道File在Disk裡是怎麼儲存，藉以應用最適合的disk scheduling</p>
+<p>原問題：<br>
+<code>Give the reasons why the operating system might require accurate information on how blocks are stored on a disk. How could the operating system improve file system performance with this knowledge? Briefly justify your answers.</code></p></div></div></div><div class="heading-wrapper"><div class="heading-children"><div><ul>
+<li data-line="0">由多片Disks組成</li>
+<li data-line="1">每片Disk通常雙面可存Data</li>
+<li data-line="2">每面劃分成多個同心圓軌道，叫做 <em>Track</em>(磁軌)</li>
+<li data-line="3">每條Track在畫分為多個 <em>sector</em>(磁區)</li>
+<li data-line="4"><em>sector</em> 是 Dick controller 可 read, write, 控制之基本單位</li>
+<li data-line="5">不同面之相同 Track No 之集合稱為 <em>cylinder</em>(磁柱)</li>
+</ul></div></div></div><div class="heading-wrapper"><h1 data-heading="Disk Access Time組成 #⭐️⭐️⭐️" class="heading" id="Disk_Access_Time組成_#⭐️⭐️⭐️">Disk Access Time組成 <a href="?query=tag:%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F" class="tag" target="_blank" rel="noopener">#⭐️⭐️⭐️</a></h1><div class="heading-children"><div><blockquote>
+<p>由三個部分組成</p>
+</blockquote></div><div><ol>
+<li data-line="0">seek Time：將Head移動到存取的Track上方所花之時間</li>
+<li data-line="1">Latency Time：將域存取的sector「轉」到讀寫頭下方所花的時間</li>
+<li data-line="2">Transfer Time：Data在Disk和Memory之間的傳輸時間</li>
+</ol></div><div><p><code>Disk Access Time = seek time + Latency time + Transfer time</code></p></div><div><pre class="language-txt" tabindex="0"><code class="language-txt is-loaded">Avg Disk Accsee Time (假設讀取XBlock)
+= {avg seek time}+{avg Latency time=轉一圈的時間/2}+{傳輸XBlock的時間}`
+</code><button class="copy-code-button">複製</button></pre></div><div><div data-callout-metadata="" data-callout-fold="" data-callout="note" class="callout drop-shadow"><div class="callout-title"><div class="callout-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg></div><div class="callout-title-inner">通常以seek Time為主</div></div></div></div><div><p><mark>rpm(rotation per minute)</mark></p></div><div class="admonition-parent admonition-example-parent"><div class="callout admonition admonition-example admonition-plugin " style="--callout-color: 124, 77, 255;" data-callout="example" data-callout-fold="" data-callout-metadata=""><div class="callout-title admonition-title "><div class="callout-icon admonition-title-icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="list-ol" class="svg-inline--fa fa-list-ol fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M61.77 401l17.5-20.15a19.92 19.92 0 0 0 5.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h22.83a157.41 157.41 0 0 0-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33 0 15.94 2.44 15.94 9.09 0 4.72-4.2 8.22-14.36 8.22a41.54 41.54 0 0 1-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16 0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zM16 160h64a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H64V40a8 8 0 0 0-8-8H32a8 8 0 0 0-7.14 4.42l-8 16A8 8 0 0 0 24 64h8v64H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8zm-3.91 160H80a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44 0-29.06-25-39.56-44.47-39.56-21.36 0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44 0 0 1 9.46-3.84c3.33 0 9.28 1.56 9.28 8.75C51 248.19 0 257.31 0 304.59v4C0 316 5.08 320 12.09 320z"></path></svg></div><div class="callout-title-inner admonition-title-content">Disk 轉速7200 rpm，球avg. Latency Time</div></div><div class="callout-content admonition-content"><p>-&gt; 一秒120圈<br>
+-&gt; 轉一圈花1/120秒<br>
+故平均 = 1/120/2 (s)</p></div></div></div><div class="admonition-parent admonition-example-parent"><div class="callout admonition admonition-example admonition-plugin " style="--callout-color: 124, 77, 255;" data-callout="example" data-callout-fold="" data-callout-metadata=""><div class="callout-title admonition-title "><div class="callout-icon admonition-title-icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="list-ol" class="svg-inline--fa fa-list-ol fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M61.77 401l17.5-20.15a19.92 19.92 0 0 0 5.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h22.83a157.41 157.41 0 0 0-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33 0 15.94 2.44 15.94 9.09 0 4.72-4.2 8.22-14.36 8.22a41.54 41.54 0 0 1-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16 0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zM16 160h64a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H64V40a8 8 0 0 0-8-8H32a8 8 0 0 0-7.14 4.42l-8 16A8 8 0 0 0 24 64h8v64H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8zm-3.91 160H80a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44 0-29.06-25-39.56-44.47-39.56-21.36 0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44 0 0 1 9.46-3.84c3.33 0 9.28 1.56 9.28 8.75C51 248.19 0 257.31 0 304.59v4C0 316 5.08 320 12.09 320z"></path></svg></div><div class="callout-title-inner admonition-title-content">求Transfer rate（每秒可以傳輸多少Data）</div></div><div class="callout-content admonition-content"><p>Disk 有10 片disks<br>
+雙面可存<br>
+每面有2048條track<br>
+每條track有4096個sector<br>
+每個secto可存16Kb<br>
+轉速6000rpm<br>
+求Transfer rate（每秒可以傳輸多少Data）</p>
+<hr>
+<p>Ans:<br>
+6000rpm = 100圈/s<br>
+轉一圈 = 讀取一整個磁柱<br>
+而一條cylinder容量 = 20條Tracks = <code>20*4096*16Kb</code></p>
+<p><code>100*20*4096*16(Kb/s)</code><br>
+<code>= 128000MB/sec</code></p></div></div></div><div class="admonition-parent admonition-example-parent"><div class="callout admonition admonition-example admonition-plugin " style="--callout-color: 124, 77, 255;" data-callout="example" data-callout-fold="" data-callout-metadata=""><div class="callout-title admonition-title "><div class="callout-icon admonition-title-icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="list-ol" class="svg-inline--fa fa-list-ol fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M61.77 401l17.5-20.15a19.92 19.92 0 0 0 5.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h22.83a157.41 157.41 0 0 0-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33 0 15.94 2.44 15.94 9.09 0 4.72-4.2 8.22-14.36 8.22a41.54 41.54 0 0 1-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16 0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zM16 160h64a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H64V40a8 8 0 0 0-8-8H32a8 8 0 0 0-7.14 4.42l-8 16A8 8 0 0 0 24 64h8v64H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8zm-3.91 160H80a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44 0-29.06-25-39.56-44.47-39.56-21.36 0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44 0 0 1 9.46-3.84c3.33 0 9.28 1.56 9.28 8.75C51 248.19 0 257.31 0 304.59v4C0 316 5.08 320 12.09 320z"></path></svg></div><div class="callout-title-inner admonition-title-content">承上題</div></div><div class="callout-content admonition-content"><p>假設Disk平均seek time = 10ms<br>
+今天要read a File , File size = 4MB<br>
+需花?ms</p>
+<hr>
+<p>Ans:<br>
+Disk Access Time<br>
+= seek time(Avg.) + latency time(Avg.) + Transfer time<br>
+= <code>10ms + 1/2 *1/100 + 4MB/128000(MB/s)</code></p></div></div></div></div></div><div class="heading-wrapper"><h1 data-heading="Disk Free space Management方法" class="heading" id="Disk_Free_space_Management方法">Disk Free space Management方法</h1><div class="heading-children"><div><p>基礎：Disk 之配置、存取單位是 <strong>Block</strong></p></div><div style="overflow-x: auto;"><table>
+<thead>
+<tr>
+<th></th>
+<th><a class="internal-link" data-href="Bit vector.md" href="作業系統/ch9-disk-management/bit-vector.html" target="_self" rel="noopener">Bit vector</a></th>
+<th><a class="internal-link" data-href="Link list.md" href="作業系統/ch9-disk-management/link-list.html" target="_self" rel="noopener">Link list</a></th>
+<th><a class="internal-link" data-href="Grouping.md" href="作業系統/ch9-disk-management/grouping.html" target="_self" rel="noopener">Grouping</a></th>
+<th><a class="internal-link" data-href="Counting.md" href="作業系統/ch9-disk-management/counting.html" target="_self" rel="noopener">Counting</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>簡述</td>
+<td>紀錄每一個block是否free</td>
+<td>free block link 起來</td>
+<td>每個free block存很多free block No.的<a class="internal-link" data-href="Link list.md" href="作業系統/ch9-disk-management/link-list.html" target="_self" rel="noopener">Link list</a></td>
+<td>每個free block不但存了下一個free block，還存從自己開始的連續free block數</td>
+</tr>
+<tr>
+<td>分析與比較</td>
+<td>適用small disk、適合找連續的Block</td>
+<td>適合大Disk、不適合找連續Block、加入刪除方便</td>
+<td>迅速找到下量free Block</td>
+<td>適用於"連續配置"</td>
+</tr>
+</tbody>
+</table></div><div><p>Grouping, Counting 都是link list的變形</p></div><div><p></p><div alt="../../資料結構/img/截圖 2022-11-02 下午7.52.40.jpg" src="lib/media/截圖-2022-11-02-下午7.52.40.jpg" class="internal-embed media-embed image-embed is-loaded" style="width: 400px; max-width: 100%;"><img alt="../../資料結構/img/截圖 2022-11-02 下午7.52.40.jpg" src="lib/media/截圖-2022-11-02-下午7.52.40.jpg" style="width: 400px; max-width: 100%;"></div><p></p></div></div></div><div class="heading-wrapper"><h1 data-heading="File Allocation Methods #⭐️⭐️⭐️⭐️⭐️" class="heading" id="File_Allocation_Methods_#⭐️⭐️⭐️⭐️⭐️">File Allocation Methods <a href="?query=tag:%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F" class="tag" target="_blank" rel="noopener">#⭐️⭐️⭐️⭐️⭐️</a></h1><div class="heading-children"><div class="admonition-parent admonition-question-parent"><div class="callout admonition admonition-question admonition-plugin " style="--callout-color: 100, 221, 23;" data-callout="question" data-callout-fold="" data-callout-metadata=""><div class="callout-title admonition-title "><div class="callout-icon admonition-title-icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="question-circle" class="svg-inline--fa fa-question-circle fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"></path></svg></div><div class="callout-title-inner admonition-title-content">為什麼需要明確的file資訊</div></div><div class="callout-content admonition-content"><p>Ans:<br>
+需要知道file的儲存方式和address，並利用此資訊實施最好的disk algorithm</p></div></div></div><div class="admonition-parent admonition-question-parent"><div class="callout admonition admonition-question admonition-plugin " style="--callout-color: 100, 221, 23;" data-callout="question" data-callout-fold="" data-callout-metadata=""><div class="callout-title admonition-title "><div class="callout-icon admonition-title-icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="question-circle" class="svg-inline--fa fa-question-circle fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"></path></svg></div><div class="callout-title-inner admonition-title-content">哪一個File Allocation Method在operation多為"append", "truncate"最適合？</div></div><div class="callout-content admonition-content"><p>Indexed Allocation</p></div></div></div><div><p><del>Contiguous &amp; linked 特性相反</del></p></div><div style="overflow-x: auto;"><table>
+<thead>
+<tr>
+<th>-</th>
+<th><a class="internal-link" data-href="Contiguous Allocation" href="作業系統/ch9-disk-management/contiguous-allocation.html" target="_self" rel="noopener">Contiguous Allocation</a></th>
+<th><a class="internal-link" data-href="Linked Allocation.md" href="作業系統/ch9-disk-management/linked-allocation.html" target="_self" rel="noopener">Linked Allocation</a></th>
+<th><a class="internal-link" data-href="Index Allocation.md" href="作業系統/ch9-disk-management/index-allocation.html" target="_self" rel="noopener">Index Allocation</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>簡述</td>
+<td><del>A到B是你的空間喔</del></td>
+<td><del>A跳到D跳到...到B都是你的空間</del></td>
+<td><del>用額外空間紀錄每一個Block的指標</del></td>
+</tr>
+<tr>
+<td>外部碎裂</td>
+<td>有 (Repack 解決)</td>
+<td>無</td>
+<td>無</td>
+</tr>
+<tr>
+<td>可靠度</td>
+<td><mark>最好</mark></td>
+<td>差</td>
+<td>差</td>
+</tr>
+<tr>
+<td>seek Time</td>
+<td><mark>最快</mark></td>
+<td>長</td>
+<td></td>
+</tr>
+<tr>
+<td>擴充</td>
+<td>不便</td>
+<td>容易</td>
+<td>容易（且不需事先宣告）</td>
+</tr>
+<tr>
+<td><a class="internal-link" data-href="Random(Direct) Access.md" href="作業系統/ch9-disk-management/random(direct)-access.html" target="_self" rel="noopener">Random(Direct) Access</a></td>
+<td>可支援</td>
+<td>無法支援（不方便</td>
+<td>可支援</td>
+</tr>
+<tr>
+<td>循序存取速度</td>
+<td>快（連續Blocks）</td>
+<td>慢</td>
+<td></td>
+</tr>
+<tr>
+<td>佔用空間</td>
+<td>最小</td>
+<td>第二小（需要pointer）</td>
+<td>最大（需要index block space）</td>
+</tr>
+</tbody>
+</table></div><div><ul>
+<li data-line="0"><a class="internal-link" data-href="FAT" href="作業系統/ch9-disk-management/fat.html" target="_self" rel="noopener">FAT</a> <del>把指標存在一起的linked allocation（追蹤只要讀pointer不用整個block）</del></li>
+<li data-line="1">UNIX的<a class="internal-link" data-href="I-Node.md" href="作業系統/ch9-disk-management/i-node.html" target="_self" rel="noopener">I-Node</a></li>
+</ul></div></div></div><div class="heading-wrapper"><h1 data-heading="[Disk scheduling Algorithm](Disk%20scheduling%20Algorithm.md) #⭐️⭐️⭐️⭐️⭐️" class="heading" id="[Disk_scheduling_Algorithm](Disk%20scheduling%20Algorithm.md)_#⭐️⭐️⭐️⭐️⭐️"><a class="internal-link" data-href="Disk scheduling Algorithm.md" href="作業系統/ch9-disk-management/disk-scheduling-algorithm.html" target="_self" rel="noopener">Disk scheduling Algorithm</a> <a href="?query=tag:%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F" class="tag" target="_blank" rel="noopener">#⭐️⭐️⭐️⭐️⭐️</a></h1><div class="heading-children"></div></div><div class="heading-wrapper"><h1 data-heading="其他名詞解釋" class="heading" id="其他名詞解釋">其他名詞解釋</h1><div class="heading-children"><div class="heading-wrapper"><h2 data-heading="formatting(格式化) #⭐️" class="heading" id="formatting(格式化)_#⭐️"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>formatting(格式化) <a href="?query=tag:%E2%AD%90%EF%B8%8F" class="tag" target="_blank" rel="noopener">#⭐️</a></h2><div class="heading-children"><div><ul>
+<li data-line="0"><a class="internal-link" data-href="physical formatting(low-level formatting).md" href="作業系統/ch9-disk-management/physical-formatting(low-level-formatting).html" target="_self" rel="noopener">physical formatting(low-level formatting)</a></li>
+<li data-line="1"><a class="internal-link" data-href="logical formatting(high-level formatting).md" href="作業系統/ch9-disk-management/logical-formatting(high-level-formatting).html" target="_self" rel="noopener">logical formatting(high-level formatting)</a></li>
+</ul></div></div></div><div class="heading-wrapper"><h2 data-heading="Raw-I/O" class="heading" id="Raw-I/O"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>Raw-I/O</h2><div class="heading-children"><div><p><del>如字面上的意思</del></p></div><div><blockquote>
+<p>將磁碟當作「大型的陣列」來用，沒有任何File sys支援服務</p>
+</blockquote></div><div><p>優點：快<br>
+缺點：不方便使用</p></div></div></div><div class="heading-wrapper"><h2 data-heading="Bootstrap loader #⭐️⭐️⭐️" class="heading" id="Bootstrap_loader_#⭐️⭐️⭐️"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>Bootstrap loader <a href="?query=tag:%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F" class="tag" target="_blank" rel="noopener">#⭐️⭐️⭐️</a></h2><div class="heading-children"><div><blockquote>
+<p>定義：此loader只有一個目的</p>
+<ol>
+<li data-line="2">開機時，用來將object code從Disk 載入到RAM</li>
+</ol>
+</blockquote></div><div><p><strong>[早期]：</strong><br>
+Bootstrap loader存在ROM裏面，開機時首先執行載入OS。<br>
+缺點</p></div><div><ol>
+<li data-line="0">Bootstrap loader不容易修改（ROM是燒進去的）</li>
+<li data-line="1">ROM大小有限-&gt;Bootstrap loader無法過大</li>
+</ol></div><div><p><strong>[現代]：</strong><br>
+<del>ROM裡面存Bootstrap的位址，Bootstrap存在Disk</del><br>
+Bootstrap loader（or Bootstrap records)存在ROM裏面，開機時透過Bootstrap loader找出「在磁碟內完整的Bootstrap loader」，抓到RAM，再透過完整的Bootstrap loader載入OS。<br>
+此外，Bootstrap loader放在Disk中「固定」的Blocks中，稱為<em>Boot Block</em> ;擁有<em>Boot Block</em>的Disk叫做<em>Boot Disk</em> or <em>system Disk</em></p></div></div></div><div class="heading-wrapper"><h2 data-heading="BAD sectors 處理方法" class="heading" id="BAD_sectors_處理方法"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>BAD sectors 處理方法</h2><div class="heading-children"><div><p>為何會壞？</p></div><div><ul>
+<li data-line="0">工廠生產過程就壞了</li>
+<li data-line="1">使用一段時間才壞</li>
+</ul></div><div><p>處理方法</p></div><div><ol>
+<li data-line="0">Mark BAD sectors,以後不使用（IDE disk controller採用）</li>
+<li data-line="1">使用spare sectors來代替（SCSI disk controller採用）
+<pre><code>spare sectors：low-formatting就以配置、OS看不到、只有SCSI disk controller可用
+</code><button class="copy-code-button">複製</button></pre>
+</li>
+</ol></div><div><p>缺點：這樣轉向可能會破壞掉原本 Disk scheduling 的效能<br>
+（解法：spare sector分散/安插在track上，再利用平移讓BAD sector旁邊是空的）</p></div></div></div><div class="heading-wrapper"><h2 data-heading="SWAP space Management #⭐️" class="heading" id="SWAP_space_Management_#⭐️"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>SWAP space Management <a href="?query=tag:%E2%AD%90%EF%B8%8F" class="tag" target="_blank" rel="noopener">#⭐️</a></h2><div class="heading-children"><div><p>Disk除了一般儲存Files Data外，也有負責暫存SWAP out 的process（沒有kernel的） image or pages，尤其是<a class="internal-link" data-href="../CH8 Virtual Memory/CH8 Virtual Memory.md" href="作業系統/ch8-virtual-memory/ch8-virtual-memory.html" target="_self" rel="noopener">CH8 Virtual Memory</a>機制</p></div><div><p><strong>使用此技術會:</strong></p></div><div><ul>
+<li data-line="0"><mark>降低系統performance</mark></li>
+<li data-line="1"><mark>提升Virtual memory size</mark></li>
+</ul></div><div><p>SWAP space</p></div><div><ul>
+<li data-line="0">也<em>可以單獨利用其他Disks來保</em>存，不跟kernel儲存的Disk混用</li>
+<li data-line="1">通常是<em>預留空間</em>，space size宜大不宜小，雖有space浪費，但至少安全</li>
+</ul></div><div><p><strong>Management方法</strong></p></div><div><ol>
+<li data-line="0"><div class="list-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>使用File system以File system以File 形式存放SWAP out之process image or pages<br>
+優點：
+<ul>
+<li data-line="2">容易製作<br>
+缺點：</li>
+<li data-line="4"><mark>效能不佳</mark></li>
+<li data-line="5">外部碎裂問題（通常用<a class="internal-link" data-href="Contiguous Allocation.md" href="作業系統/ch9-disk-management/contiguous-allocation.html" target="_self" rel="noopener">Contiguous Allocation</a>)</li>
+</ul>
+</li>
+<li data-line="6">使用獨立的Partition 存放。Raw-I/O<br>
+優點：效能佳<br>
+缺點：萬一partition size不夠大，必須重新re-partition</li>
+</ol></div></div></div><div class="heading-wrapper"><h2 data-heading="Disk #⭐️⭐" class="heading" id="Disk_#⭐️⭐"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>Disk <a href="?query=tag:%E2%AD%90%EF%B8%8F%E2%AD%90" class="tag" target="_blank" rel="noopener">#⭐️⭐</a></h2><div class="heading-children"><div class="heading-wrapper"><h3 data-heading="Access Performance" class="heading" id="Access_Performance"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>Access Performance</h3><div class="heading-children"><div><p>提升技術：<a class="internal-link" data-href="Data striping.md" href="作業系統/ch9-disk-management/data-striping.html" target="_self" rel="noopener">Data striping</a></p></div></div></div><div class="heading-wrapper"><h3 data-heading="Reliablility" class="heading" id="Reliablility"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>Reliablility</h3><div class="heading-children"><div><ol>
+<li data-line="0"><a class="internal-link" data-href="Mirror.md" href="作業系統/ch9-disk-management/mirror.html" target="_self" rel="noopener">Mirror</a></li>
+<li data-line="1"><a class="internal-link" data-href="parity-check.md" href="作業系統/ch9-disk-management/parity-check.html" target="_self" rel="noopener">parity-check</a></li>
+</ol></div></div></div></div></div><div class="heading-wrapper"><h2 data-heading="RAID 介紹 #⭐️⭐️⭐️" class="heading" id="RAID_介紹_#⭐️⭐️⭐️"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>RAID 介紹 <a href="?query=tag:%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F%E2%AD%90%EF%B8%8F" class="tag" target="_blank" rel="noopener">#⭐️⭐️⭐️</a></h2><div class="heading-children"><div><p>（Redundant Array of Independent Disks)</p></div><div class="heading-wrapper"><h3 data-heading="Redundant" class="heading" id="Redundant"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>Redundant</h3><div class="heading-children"><div><blockquote>
+<p>用多個小的Disk替代一個大的Disk<br>
+目的:提升disk 的throughput、reliability</p>
+</blockquote></div><div style="overflow-x: auto;"><table>
+<thead>
+<tr>
+<th>RAID-0</th>
+<th>RAID-1</th>
+<th>RAID-2</th>
+<th>RAID-3</th>
+<th>RAID-4</th>
+<th>RAID-5</th>
+<th>RAID-6</th>
+<th>RAID-01, RAID-10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Block-level striping&amp;No reliability tech</td>
+<td><a class="internal-link" data-href="Mirror.md" href="作業系統/ch9-disk-management/mirror.html" target="_self" rel="noopener">Mirror</a></td>
+<td>error-checking Code技術</td>
+<td>Bit-level striping &amp; <a class="internal-link" data-href="parity-check.md" href="作業系統/ch9-disk-management/parity-check.html" target="_self" rel="noopener">parity-check</a></td>
+<td>Block-level striping &amp; <a class="internal-link" data-href="parity-check.md" href="作業系統/ch9-disk-management/parity-check.html" target="_self" rel="noopener">parity-check</a></td>
+<td>parity blocks分散存放的RAID-4</td>
+<td>Reed-Solomon</td>
+<td><a class="internal-link" data-href="Mirror.md" href="作業系統/ch9-disk-management/mirror.html" target="_self" rel="noopener">Mirror</a> &amp; Block level striping(組合)</td>
+</tr>
+<tr>
+<td><code>N</code>個Disk</td>
+<td><code>2N</code></td>
+<td><code>2N+1</code></td>
+<td><code>N+1</code></td>
+<td><code>N+1</code></td>
+<td><code>N</code></td>
+<td></td>
+<td><code>2N</code></td>
+</tr>
+<tr>
+<td>non-redundant striping</td>
+<td></td>
+<td>無實際產品</td>
+<td></td>
+<td></td>
+<td></td>
+<td>無實際產品、成本太高</td>
+<td></td>
+</tr>
+</tbody>
+</table></div><div><ol>
+<li data-line="0">
+<p>RAID-0</p>
+<blockquote>
+<p>即是Block-level striping 且<mark>沒有任何reliability提升技術</mark>，如<a class="internal-link" data-href="Mirror.md" href="作業系統/ch9-disk-management/mirror.html" target="_self" rel="noopener">mirror</a> or parity-check<br>
+適用於<em>高效能存取</em>要求且<em>可靠度不甚重要</em>之應用場合</p>
+</blockquote>
+</li>
+<li data-line="4">
+<p>RAID-1</p>
+<blockquote>
+<p>即是<mark><a class="internal-link" data-href="Mirror.md" href="作業系統/ch9-disk-management/mirror.html" target="_self" rel="noopener">mirror</a> only</mark><br>
+缺點同<a class="internal-link" data-href="Mirror.md" href="作業系統/ch9-disk-management/mirror.html" target="_self" rel="noopener">mirror</a></p>
+</blockquote>
+</li>
+<li data-line="8"><div class="list-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>
+<p>RAID-2（無實際產品）</p>
+<blockquote>
+<p>採用memory 之 ECC(error-checking Code)技術，Disks數需<code>2N-1</code></p>
+<ul>
+<li data-line="11">成本降低有限</li>
+<li data-line="12">可靠度根RAID-3一樣但成本高於RAID-3</li>
+</ul>
+</blockquote>
+</li>
+<li data-line="14"><div class="list-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>
+<p>RAID-3</p>
+<blockquote>
+<p>採用<em>Bit-Level striping</em> 及 <em>parity-check</em>技術</p>
+<ul>
+<li data-line="17"><code>N+1</code>部Disks</li>
+</ul>
+</blockquote>
+</li>
+<li data-line="19"><div class="list-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>
+<p>RAID-4</p>
+<blockquote>
+<p>採<em>Block-Level striping</em> 及 <em>parity-check</em>技術</p>
+<ul>
+<li data-line="22"><code>N+1</code>部Disks</li>
+</ul>
+</blockquote>
+</li>
+<li data-line="24"><div class="list-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>
+<p>RAID-5</p>
+<blockquote>
+<p>採用<em>Block-Level striping</em>及 <em>parity-check</em>技術，但差別在於<mark>parity blocks是分散於Disks中</mark>，並非集中存於單一Disk中</p>
+<ul>
+<li data-line="27">目的：避免單一Disk過度使用</li>
+<li data-line="28"><code>N</code>部Disks（每個disk要額外容納parity的資訊）<del>（也就是只允許一步Disk出錯)</del></li>
+</ul>
+</blockquote>
+</li>
+<li data-line="30">
+<p>RAID-6（無實際產品）</p>
+<blockquote>
+<p>採用Reed-Solomon技術，可允許兩部Disks同時出錯。但是成本太高。</p>
+</blockquote>
+</li>
+<li data-line="33"><div class="list-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>
+<p>RAID-0 &amp; RAID-1組合</p>
+<blockquote>
+<p><em>高效能存取</em>與<em>高可靠度</em>皆要求之場合</p>
+</blockquote>
+<p>分為:</p>
+<ol>
+<li data-line="39">RAID 0+1:先striping 再整體<a class="internal-link" data-href="Mirror.md" href="作業系統/ch9-disk-management/mirror.html" target="_self" rel="noopener">mirror</a><br>
+<div src="lib/media/截圖-2022-12-14-下午6.27.40.jpg" class="internal-embed media-embed image-embed is-loaded"><img src="lib/media/截圖-2022-12-14-下午6.27.40.jpg"></div></li>
+<li data-line="41">RAID1+0:先個別<a class="internal-link" data-href="Mirror.md" href="作業系統/ch9-disk-management/mirror.html" target="_self" rel="noopener">mirror</a> 再交錯(striping)<br>
+<div src="lib/media/截圖-2022-12-14-下午6.27.54.jpg" class="internal-embed media-embed image-embed is-loaded"><img src="lib/media/截圖-2022-12-14-下午6.27.54.jpg"></div></li>
+</ol>
+</li>
+</ol></div></div></div></div></div><div class="heading-wrapper"><h2 data-heading="RAM Disk" class="heading" id="RAM_Disk"><div class="heading-collapse-indicator collapse-indicator collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div>RAM Disk</h2><div class="heading-children"><div><blockquote>
+<p>定義：將RAM切割一塊space作為一個logical Disk使用</p>
+</blockquote></div><div><p>優點</p></div><div><ul>
+<li data-line="0">速度極快</li>
+</ul></div><div><p>缺點：</p></div><div><ul>
+<li data-line="0">容量小</li>
+<li data-line="1">power-off後，data不見。</li>
+</ul></div><div class="mod-footer"></div></div></div></div></div></div></div></div><div class="sidebar-right sidebar"><div class="sidebar-handle"></div><div class="sidebar-topbar"><div class="topbar-content"></div><div class="clickable-icon sidebar-collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M21 3H3C1.89543 3 1 3.89543 1 5V19C1 20.1046 1.89543 21 3 21H21C22.1046 21 23 20.1046 23 19V5C23 3.89543 22.1046 3 21 3Z"></path><path d="M10 4V20"></path><path d="M4 7H7"></path><path d="M4 10H7"></path><path d="M4 13H7"></path></svg></div></div><div class="sidebar-content"><div class="graph-view-wrapper"><div class="sidebar-section-header">Interactive Graph</div><div class="graph-view-placeholder">
+		<div class="graph-view-container">
+			<div class="graph-icon graph-expand" role="button" aria-label="Expand" data-tooltip-position="top"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></div>
+			<canvas id="graph-canvas" class="hide" width="512px" height="512px"></canvas>
+		</div>
+		</div></div><div class="tree-container mod-root nav-folder tree-item outline-tree" data-depth="0"><div class="tree-header"><span class="sidebar-section-header">Table Of Contents</span><button class="clickable-icon collapse-tree-button" aria-label="Collapse All"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg></button></div><div class="tree-scroll-area tree-item-children nav-folder-children"><div class="tree-item mod-tree-folder nav-folder mod-collapsible is-collapsed" style="display: none;"></div><div class="tree-item" data-depth="1"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#Disk system 組成 <a href=&quot;?query=tag:%E2%AD%90%EF%B8%8F&quot; class=&quot;tag&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>#⭐️</a>"><div class="tree-item-contents heading-link" heading-name="Disk system 組成 "><span class="tree-item-title">Disk system 組成 </span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item" data-depth="1"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#Disk_Access_Time組成_#⭐️⭐️⭐️"><div class="tree-item-contents heading-link" heading-name="Disk Access Time組成 #⭐️⭐️⭐️"><span class="tree-item-title">Disk Access Time組成 </span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item" data-depth="1"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#Disk_Free_space_Management方法"><div class="tree-item-contents heading-link" heading-name="Disk Free space Management方法"><span class="tree-item-title">Disk Free space Management方法</span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item" data-depth="1"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#File_Allocation_Methods_#⭐️⭐️⭐️⭐️⭐️"><div class="tree-item-contents heading-link" heading-name="File Allocation Methods #⭐️⭐️⭐️⭐️⭐️"><span class="tree-item-title">File Allocation Methods </span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item" data-depth="1"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#[Disk_scheduling_Algorithm](Disk%20scheduling%20Algorithm.md)_#⭐️⭐️⭐️⭐️⭐️"><div class="tree-item-contents heading-link" heading-name="[Disk scheduling Algorithm](Disk%20scheduling%20Algorithm.md) #⭐️⭐️⭐️⭐️⭐️"><span class="tree-item-title"><a class="internal-link" data-href="Disk scheduling Algorithm.md" href="Disk scheduling Algorithm.md" target="_blank" rel="noopener">Disk scheduling Algorithm</a> </span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item" data-depth="1"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#其他名詞解釋"><div class="tree-item-contents heading-link" heading-name="其他名詞解釋"><span class="tree-item-title">其他名詞解釋</span></div></a><div class="tree-item-children nav-folder-children"><div class="tree-item" data-depth="2"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#formatting(格式化)_#⭐️"><div class="tree-item-contents heading-link" heading-name="formatting(格式化) #⭐️"><span class="tree-item-title">formatting(格式化) </span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item" data-depth="2"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#Raw-I/O"><div class="tree-item-contents heading-link" heading-name="Raw-I/O"><span class="tree-item-title">Raw-I/O</span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item" data-depth="2"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#Bootstrap_loader_#⭐️⭐️⭐️"><div class="tree-item-contents heading-link" heading-name="Bootstrap loader #⭐️⭐️⭐️"><span class="tree-item-title">Bootstrap loader </span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item" data-depth="2"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#BAD_sectors_處理方法"><div class="tree-item-contents heading-link" heading-name="BAD sectors 處理方法"><span class="tree-item-title">BAD sectors 處理方法</span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item" data-depth="2"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#SWAP_space_Management_#⭐️"><div class="tree-item-contents heading-link" heading-name="SWAP space Management #⭐️"><span class="tree-item-title">SWAP space Management </span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item mod-collapsible" data-depth="2"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#Disk_#⭐️⭐"><div class="tree-item-contents heading-link" heading-name="Disk #⭐️⭐"><div class="collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div><span class="tree-item-title">Disk </span></div></a><div class="tree-item-children nav-folder-children"><div class="tree-item" data-depth="3"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#Access_Performance"><div class="tree-item-contents heading-link" heading-name="Access Performance"><span class="tree-item-title">Access Performance</span></div></a><div class="tree-item-children nav-folder-children"></div></div><div class="tree-item" data-depth="3"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#Reliablility"><div class="tree-item-contents heading-link" heading-name="Reliablility"><span class="tree-item-title">Reliablility</span></div></a><div class="tree-item-children nav-folder-children"></div></div></div></div><div class="tree-item mod-collapsible" data-depth="2"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#RAID_介紹_#⭐️⭐️⭐️"><div class="tree-item-contents heading-link" heading-name="RAID 介紹 #⭐️⭐️⭐️"><div class="collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon right-triangle"><path d="M3 8L12 17L21 8"></path></svg></div><span class="tree-item-title">RAID 介紹 </span></div></a><div class="tree-item-children nav-folder-children"><div class="tree-item" data-depth="3"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#Redundant"><div class="tree-item-contents heading-link" heading-name="Redundant"><span class="tree-item-title">Redundant</span></div></a><div class="tree-item-children nav-folder-children"></div></div></div></div><div class="tree-item" data-depth="2"><a class="tree-link" href="作業系統/ch9-disk-management/ch9-disk-management.html#RAM_Disk"><div class="tree-item-contents heading-link" heading-name="RAM Disk"><span class="tree-item-title">RAM Disk</span></div></a><div class="tree-item-children nav-folder-children"></div></div></div></div></div></div></div><script defer="">let rs = document.querySelector(".sidebar-right"); rs.classList.add("is-collapsed"); if (window.innerWidth > 768) rs.classList.remove("is-collapsed"); rs.style.setProperty("--sidebar-width", localStorage.getItem("sidebar-right-width"));</script></div></div></body></html>
