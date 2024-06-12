@@ -3,17 +3,22 @@ body, html {
     padding: 0;
     height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: center;     /* 垂直置中 */
     font-family: Arial, sans-serif;
-    overflow: hidden; /* 防止滚动条出现 */
+    overflow: hidden;        /* 防止滾動條出現 */
 }
 
 .video-background {
-    position: fixed;
+    background-image: url('./photo/IMG_5696.JPG');
+    background-size: cover;  /* 確保圖片覆蓋整個背景 */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
-    z-index: -1; /* 确保视频在最底层 */
+    height: 100%;
+    z-index: -1;             /* 確保視頻在最底層 */
     overflow: hidden;
 }
 
@@ -25,25 +30,20 @@ video {
     height: 100%;
     object-fit: cover;
     transform: translate(-50%, -50%);
-}
-
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: -1;
 }
 
 .content {
+    display: flex;
+    flex-direction: column;  /* 使子元素垂直排列 */
+    justify-content: center; /* 垂直置中 */
+    align-items: center;     /* 水平置中 */
     text-align: center;
     color: white;
-    background-color: rgba(0, 0, 0, 0.5); /* 增加透明背景以便更好地阅读文字 */
+    background-color: rgba(0, 0, 0, 0.5); /* 增加透明背景以便更好地閱讀文字 */
     padding: 20px;
     border-radius: 10px;
+    z-index: 1;
 }
 
 input {

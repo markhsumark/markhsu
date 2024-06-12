@@ -1,26 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>纪念日快乐</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>中央置中範例</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <div class="video-background">
-        <video autoplay loop muted>
-            <source src="photo/BA96DBB5-2F38-451C-81D5-FF94A3FE9F10.mov" type="video/mp4">
-            您的浏览器不支持视频标签。
+        <video autoplay muted loop>
+            <source src="your-video-file.mp4" type="video/mp4">
+            您的瀏覽器不支持 HTML5 視頻。
         </video>
     </div>
-    <div class="overlay">
-        <div class="content">
-            <h1>文字在這</h1>
-            <p>请输入正确的文字以查看下一张照片：</p>
-            <input type="text" id="userInput" placeholder="输入文字">
-            <button onclick="checkInput()">提交</button>
-        </div>
+    <div class="content">
+        <h1>置中內容</h1>
+        <p>這個元素已經置中。</p>
+        <input type="text" placeholder="輸入文字">
+        <button>提交</button>
     </div>
-    <script src="script.js"></script>
 </body>
 </html>
