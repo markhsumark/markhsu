@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中央置中範例</title>
+    <title>3週年邀請卡</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+    <div class="header">
+        <h1 id="mainTitle">3週年邀請卡</h1>
+    </div>
     <div class="video-background">
         <video autoplay muted loop>
             <source src="your-video-file.mp4" type="video/mp4">
@@ -14,10 +17,11 @@
         </video>
     </div>
     <div class="content">
-        <h1>置中內容</h1>
-        <p>這個元素已經置中。</p>
-        <input type="text" placeholder="輸入文字">
-        <button>提交</button>
+        <h2 id="question">這是第一題的問題</h2>
+        <p id="text">請回答問題。</p>
+        <input type="text" id="userInput" placeholder="輸入答案">
+        <button onclick="checkAnswer()">提交</button>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
