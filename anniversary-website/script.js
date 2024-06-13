@@ -32,9 +32,7 @@ function checkAnswer() {
             videoBackground.style.backgroundImage = questions[currentQuestionIndex].backgroundImage;
             text.innerText = "回答正確！請回答下一題。";
         } else {
-            text.innerText = "恭喜你，已經完成所有問題！";
-            content.style.backgroundColor = 'rgba(0, 128, 0, 0.5)'; // 更改背景顏色
-            content.style.color = 'yellow'; // 更改文字顏色
+            window.location.href = './Congratulations.html';
         }
     } else {
         text.innerText = "輸入不正確，請再試一次";

@@ -49,6 +49,14 @@ video {
     z-index: -1;
 }
 
+.link-button{
+    border-radius: 15px; /* 圓角邊框 */
+
+    padding: 5px;
+    color: rgb(205, 233, 250);
+    background-color: rgba(33, 47, 94, 0.9); /* 增加透明背景以便更好地閱讀文字 */
+}
+
 .content {
     display: flex;
     flex-direction: column;  /* 使子元素垂直排列 */
@@ -61,7 +69,7 @@ video {
     border-radius: 10px;
     z-index: 1;
     transition: background-color 1s ease, color 1s ease; /* 添加動畫效果 */
-    margin-top: 80px; /* 確保內容不被header遮擋 */
+    margin-top: 40px; /* 確保內容不被header遮擋 */
 }
 
 input {
