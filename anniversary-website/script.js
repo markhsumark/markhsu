@@ -1,18 +1,19 @@
 const questions = [
     {
-        question: "這是第一題的問題",
-        answer: "",
-        backgroundImage: "url('./photo/IMG_6579.JPG')"
-    },
-    {
-        question: "這是第二題的問題",
-        answer: "",
-        backgroundImage: "url('./photo/IMG_6579.JPG')"
-    },
-    {
-        question: "這是第三題的問題",
-        answer: "",
+        answer: "08/04",
         backgroundImage: "url('./photo/IMG_5696.JPG')"
+    },
+    {
+        question: "你男朋友最愛的人是誰？",
+        placeholder: "江欣儒寶貝",
+        answer: "江欣儒寶貝",
+        backgroundImage: "url('./photo/IMG_6579.JPG')"
+    },
+    {
+        question: "背景這張圖的拍攝日期是？",
+        placeholder: "yyyy/MM/dd",
+        answer: "2023/09/03",
+        backgroundImage: "url('./photo/IMG_8966.JPG')"
     }
     // 可以繼續添加更多問題
 ];
@@ -28,6 +29,7 @@ function checkAnswer() {
     if (userInput === questions[currentQuestionIndex].answer) {
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
+            document.getElementById('userInput').placeholder = questions[currentQuestionIndex].placeholder;
             document.getElementById('question').innerText = questions[currentQuestionIndex].question;
             videoBackground.style.backgroundImage = questions[currentQuestionIndex].backgroundImage;
             text.innerText = "回答正確！請回答下一題。";
@@ -36,7 +38,7 @@ function checkAnswer() {
         }
     } else {
         text.innerText = "輸入不正確，請再試一次";
-        content.style.backgroundColor = 'rgba(128, 0, 0, 0.5)'; // 更改背景顏色
-        content.style.color = 'red'; // 更改文字顏色
+        text.style.color = 'red'; // 更改文字顏色
     }
+    document.getElementById('userInput').value = ''
 }
